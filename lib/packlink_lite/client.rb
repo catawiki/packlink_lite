@@ -51,7 +51,7 @@ module PacklinkLite
         builder.request :retry
         builder.request :json
 
-        builder.headers['Accept'] = 'application/json'
+        builder.headers = config.headers
 
         builder.response :json, content_type: /\bjson$/
         builder.response :raise_error
