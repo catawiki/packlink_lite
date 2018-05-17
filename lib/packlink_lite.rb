@@ -27,7 +27,7 @@ module PacklinkLite
   end
 
   def url
-    config.testing? ? SANDBOX_URL : PRODUCTION_URL
+    "#{config.api_endpoint}/v1"
   end
 
   def change_shipment_callback_url(url)

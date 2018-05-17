@@ -29,7 +29,12 @@ module PacklinkLite
     def with_error_handling
       yield
     rescue Faraday::ClientError => e
-      message = extract_error_message(e.response[:body]) || e.message
+      message = if e.response.present?
+                  extract_error_message(e.response[:body])
+                else
+                  e.message
+                end
+
       raise(Error, message)
     end
 
@@ -51,7 +56,7 @@ module PacklinkLite
         builder.request :retry
         builder.request :json
 
-        builder.headers['Accept'] = 'application/json'
+        builder.headers = config.headers
 
         builder.response :json, content_type: /\bjson$/
         builder.response :raise_error
